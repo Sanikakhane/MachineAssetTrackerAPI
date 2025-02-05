@@ -28,7 +28,7 @@ namespace MachineAssetTrackerAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(_machineAssetsService.GetAll());
+            return Ok(machineAssets);
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace MachineAssetTrackerAPI.Controllers
             var machineAssets = _machineAssetsService.GetAssetsByMachineType(machineType);
             if (machineAssets.Count == 0 || machineAssets == null)
             {
-                return NotFound();
+                return NotFound("Machine is not present is Database");
             }
-            return Ok(_machineAssetsService.GetAssetsByMachineType(machineType));
+            return Ok(machineAssets);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace MachineAssetTrackerAPI.Controllers
             var machineAssets = _machineAssetsService.GetMachinesByAsset(assetName);
             if (machineAssets.Count == 0 || machineAssets == null)
             {
-                return NotFound();
+                return NotFound("Asset is not present in the database");
             }
             return Ok(machineAssets);
         }
@@ -79,9 +79,9 @@ namespace MachineAssetTrackerAPI.Controllers
             var machineAssets = _machineAssetsService.GetMachinesUsingLatestSeries();
             if (machineAssets.Count == 0 || machineAssets == null)
             {
-                return NotFound();
+                return NotFound("The list is empty");
             }
-            return Ok(_machineAssetsService.GetMachinesUsingLatestSeries());
+            return Ok(machineAssets);
         }
     }
 }

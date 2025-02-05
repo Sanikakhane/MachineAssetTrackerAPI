@@ -27,7 +27,7 @@ namespace MachineAssetTrackerAPI.Controllers
             var machines = _machineService.GetAll();
             if (machines.Count == 0 || machines == null)
             {
-                return NotFound();
+                return NotFound("There is no data in database");
             }
             return Ok(_machineService.GetAll());
         }
@@ -43,7 +43,7 @@ namespace MachineAssetTrackerAPI.Controllers
         public IActionResult InsertMachine([FromBody] Machine machineAsset)
         {
             _machineService.InsertMachine(machineAsset);
-            return Ok();
+            return Ok("Machine is inserted successfully");
         }
 
         /// <summary>
@@ -61,17 +61,17 @@ namespace MachineAssetTrackerAPI.Controllers
             var machine = _machineService.GetMachineById(id);
             if (machine == null)
             {
-                return NotFound();
+                return NotFound("Id not found");
             }
             _machineService.UpdateMachineDetails(id, machineAsset);
-            return Ok();
+            return Ok(machine);
         }
 
         /// <summary>
         /// Delete a machine
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Machine ID</returns>
+        /// <returns>Deleted Object</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -80,10 +80,10 @@ namespace MachineAssetTrackerAPI.Controllers
             var machine = _machineService.GetMachineById(id);
             if (machine == null)
             {
-                return NotFound();
+                return NotFound("Id is incorrect");
             }
             _machineService.DeleteMachine(id);
-            return Ok();
+            return Ok(machine);
         }
 
         /// <summary>
@@ -96,7 +96,12 @@ namespace MachineAssetTrackerAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetMachineById(string id)
         {
-            return Ok(_machineService.GetMachineById(id));
+            var machine = _machineService.GetMachineById(id);
+            if (machine == null)
+            {
+                return NotFound("Id is incorrect");
+            }
+            return Ok(machine);
         }
     }
 }

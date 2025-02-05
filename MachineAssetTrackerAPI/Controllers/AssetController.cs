@@ -28,7 +28,7 @@ namespace MachineAssetTrackerAPI.Controllers
             var assets = _assetService.GetAll();
             if (assets.Count == 0 || assets == null)
             {
-                return NotFound();
+                return NotFound("The List empty");
             }
             return Ok(_assetService.GetAll());
         }
@@ -44,7 +44,7 @@ namespace MachineAssetTrackerAPI.Controllers
         public IActionResult InsertAsset([FromBody] Asset asset)
         {
             _assetService.InsertAsset(asset);
-            return Ok();
+            return Ok("Asset Inserted successfully");
         }
 
         /// <summary>
@@ -62,17 +62,17 @@ namespace MachineAssetTrackerAPI.Controllers
             var assetData = _assetService.GetAssetById(id);
             if (assetData == null)
             {
-                return NotFound();
+                return NotFound("Id not found");
             }
             _assetService.UpdateAssetDetails(id, asset);
-            return Ok();
+            return Ok(asset);
         }
 
         /// <summary>
         /// Delete an asset
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Asset ID</returns>
+        /// <returns>Deleted Asset</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -81,10 +81,10 @@ namespace MachineAssetTrackerAPI.Controllers
             var assetData = _assetService.GetAssetById(id);
             if (assetData == null)
             {
-                return NotFound();
+                return NotFound("Id Not found");
             }
             _assetService.DeleteAsset(id);
-            return Ok();
+            return Ok(assetData);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace MachineAssetTrackerAPI.Controllers
             var assetData = _assetService.GetAssetById(id);
             if (assetData == null)
             {
-                return NotFound();
+                return NotFound("The Id found");
             }
             return Ok(_assetService.GetAssetById(id));
         }
